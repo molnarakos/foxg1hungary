@@ -1,0 +1,13 @@
+{
+  "name": "foxg1-alapitvany",
+  "version": "1.0.0",
+  "description": "Magyar FOXG1 Szindróma Alapítvány weboldal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
