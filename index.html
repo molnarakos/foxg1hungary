@@ -8,6 +8,168 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
   <link rel="icon" type="image/png" href="foxg1.png"/>
+  <style>
+    .rolunk-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 2.5rem;
+    }
+    .rolunk-tab {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.7);
+      padding: 10px 28px;
+      border-radius: 50px;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.3s ease;
+      letter-spacing: 0.02em;
+    }
+    .rolunk-tab:hover {
+      border-color: rgba(255,255,255,0.6);
+      color: #fff;
+    }
+    .rolunk-tab.active {
+      background: #fff;
+      border-color: #fff;
+      color: #1a1a2e;
+      font-weight: 500;
+    }
+    .music-player {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 3rem 0;
+    }
+    .music-vinyl {
+      width: 200px;
+      height: 200px;
+    }
+    .vinyl-outer {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #2a2a2a, #111);
+      box-shadow: 0 0 0 3px #333, 0 0 0 6px #222, 0 8px 40px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .vinyl-outer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle at 50% 50%, transparent 0px, transparent 4px, rgba(255,255,255,0.03) 4px, rgba(255,255,255,0.03) 5px);
+    }
+    .vinyl-inner {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5c842, #e8a020);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      box-shadow: 0 0 0 3px #111;
+    }
+    .vinyl-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #111;
+    }
+    .music-vinyl.spinning .vinyl-outer {
+      animation: spin 4s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .music-info { text-align: center; }
+    .music-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #fff;
+      margin: 0 0 4px;
+    }
+    .music-artist {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.55);
+      margin: 0;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .play-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #1a1a2e;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .play-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 30px rgba(255,255,255,0.25);
+    }
+    .play-btn:active { transform: scale(0.96); }
+    .play-btn::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      animation: pulseRing 2s ease-out infinite;
+    }
+    .play-btn.playing::before {
+      animation: pulseRing 1.2s ease-out infinite;
+      border-color: rgba(255,255,255,0.35);
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+    .music-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 380px;
+    }
+    .music-time {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      font-variant-numeric: tabular-nums;
+      min-width: 35px;
+    }
+    .music-progress {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+    }
+    .music-bar {
+      height: 100%;
+      width: 0%;
+      background: #fff;
+      border-radius: 4px;
+      transition: width 0.3s linear;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,7 +185,6 @@
         <li><a href="#rolunk">Rólunk</a></li>
         <li><a href="#segits">Segíts</a></li>
         <li><a href="#kapcsolat">Kapcsolat</a></li>
-        <li><a href="https://secure.qgiv.com/for/foxg1researchfoundation/" target="_blank" class="nav-donate">Adományozás</a></li>
       </ul>
       <button class="hamburger" id="hamburger">&#9776;</button>
     </div>
@@ -32,7 +193,6 @@
       <li><a href="#rolunk">Rólunk</a></li>
       <li><a href="#segits">Segíts</a></li>
       <li><a href="#kapcsolat">Kapcsolat</a></li>
-      <li><a href="https://secure.qgiv.com/for/foxg1researchfoundation/" target="_blank">Adományozás</a></li>
     </ul>
   </nav>
 
@@ -48,7 +208,6 @@
       <h1 class="hero-title">FOXG1 Szindróma –<br><em>Mert minden gyermek</em><br>megérdemli az esélyt</h1>
       <p class="hero-desc">A FOXG1 szindróma ritka genetikai betegség – világszerte eddig mindössze 1300 ismert eset van. Célunk az érintett magyar családok összefogása, a kutatás támogatása és a tudatosság növelése.</p>
       <div class="hero-actions">
-        <a href="https://secure.qgiv.com/for/foxg1researchfoundation/" target="_blank" class="btn btn-primary">Adományozz most</a>
         <a href="#mi-a-foxg1" class="btn btn-outline">Tudj meg többet</a>
       </div>
     </div>
@@ -101,28 +260,66 @@
     <div class="container">
       <div class="section-label light">Rólunk</div>
       <h2 class="section-title light">Az alapítványról</h2>
-      <div class="about-grid">
-        <div class="about-card">
-          <div class="about-icon">🤝</div>
-          <h3>Összefogás</h3>
-          <p>Magyar érintett családokat hozunk össze, hogy senki ne érezze magát egyedül ezzel a diagnózissal.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-icon">🔬</div>
-          <h3>Kutatástámogatás</h3>
-          <p>Az adományok egy részét a FOXG1 szindróma nemzetközi kutatásának finanszírozásába forgatjuk vissza.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-icon">📢</div>
-          <h3>Tudatosság</h3>
-          <p>Célunk, hogy Magyarországon is minél több ember halljon erről a ritka betegségről, és a diagnózis ne évekig tartson.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-icon">💛</div>
-          <h3>Segítségnyújtás</h3>
-          <p>Információt, kapcsolatokat és érzelmi támogatást nyújtunk az érintett családoknak.</p>
+
+      <div class="rolunk-tabs">
+        <button class="rolunk-tab active" onclick="switchTab('alapitvany', this)">Az alapítványról</button>
+        <button class="rolunk-tab" onclick="switchTab('zene', this)">🎵 Zenénk</button>
+      </div>
+
+      <!-- TAB: ALAPÍTVÁNY -->
+      <div class="rolunk-panel" id="tab-alapitvany">
+        <div class="about-grid">
+          <div class="about-card">
+            <div class="about-icon">🤝</div>
+            <h3>Összefogás</h3>
+            <p>Magyar érintett családokat hozunk össze, hogy senki ne érezze magát egyedül ezzel a diagnózissal.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-icon">🔬</div>
+            <h3>Kutatástámogatás</h3>
+            <p>Az adományok egy részét a FOXG1 szindróma nemzetközi kutatásának finanszírozásába forgatjuk vissza.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-icon">📢</div>
+            <h3>Tudatosság</h3>
+            <p>Célunk, hogy Magyarországon is minél több ember halljon erről a ritka betegségről, és a diagnózis ne évekig tartson.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-icon">💛</div>
+            <h3>Segítségnyújtás</h3>
+            <p>Információt, kapcsolatokat és érzelmi támogatást nyújtunk az érintett családoknak.</p>
+          </div>
         </div>
       </div>
+
+      <!-- TAB: ZENE -->
+      <div class="rolunk-panel" id="tab-zene" style="display:none;">
+        <div class="music-player">
+          <div class="music-vinyl" id="vinyl">
+            <div class="vinyl-outer">
+              <div class="vinyl-inner">
+                <div class="vinyl-dot"></div>
+              </div>
+            </div>
+          </div>
+          <div class="music-info">
+            <p class="music-title">Lines of Your Face</p>
+            <p class="music-artist">FOXG1 Magyar Alapítvány</p>
+          </div>
+          <audio id="audioPlayer" src="Lines_of_Your_Face.mp3" preload="metadata"></audio>
+          <button class="play-btn" id="playBtn" onclick="togglePlay()">
+            <span id="playIcon">▶</span>
+          </button>
+          <div class="music-progress-wrap">
+            <span class="music-time" id="currentTime">0:00</span>
+            <div class="music-progress" onclick="seekAudio(event)">
+              <div class="music-bar" id="musicBar"></div>
+            </div>
+            <span class="music-time" id="totalTime">0:00</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -134,10 +331,6 @@
         <div class="section-label">Te is segíthetsz</div>
         <h2 class="section-title">Minden forint számít</h2>
         <p class="cta-text">Az adományok közvetlenül a FOXG1 kutatás finanszírozását és a magyar érintett családok támogatását segítik. Adj esélyt ezeknek a gyerekeknek!</p>
-        <a href="https://secure.qgiv.com/for/foxg1researchfoundation/" target="_blank" class="btn btn-primary btn-large">
-          Adományozz most →
-        </a>
-        <p class="cta-note">Biztonságos fizetési rendszeren keresztül, bankkártyával is.</p>
       </div>
     </div>
   </section>
@@ -153,10 +346,6 @@
           <div class="contact-item">
             <span class="contact-icon">✉️</span>
             <span>info@foxg1.hu</span>
-          </div>
-          <div class="contact-item">
-            <span class="contact-icon">🌐</span>
-            <a href="https://secure.qgiv.com/for/foxg1researchfoundation/" target="_blank">Adományozási oldal</a>
           </div>
         </div>
         <form class="contact-form" onsubmit="handleSubmit(event)">
@@ -176,7 +365,7 @@
       <div class="section-label">További információk</div>
       <h2 class="section-title">Hasznos linkek</h2>
       <div class="links-grid">
-        <a href="https://eleterzesegyesulet.hu/nem-csak-a-fejlodes-a-siker-hanem-az-is-ha-nem-romlik-a-helyzet-liza-foxg1-szindroma/" target="_blank" class="link-card">
+        <a href="https://eleterzesegyesulet.hu/nem-csak-a-fejlodes-a-siker-hanem-ax-is-ha-nem-romlik-a-helyzet-liza-foxg1-szindroma/" target="_blank" class="link-card">
           <div class="link-icon">🇭🇺</div>
           <div class="link-text">
             <h3>Életérzés Egyesület</h3>
@@ -220,10 +409,78 @@
         <span class="logo-sub">Magyar Alapítvány</span>
       </div>
       <p class="footer-copy">© 2025 Magyar FOXG1 Szindróma Alapítvány. Minden jog fenntartva.</p>
-      <a href="https://secure.qgiv.com/for/foxg1researchfoundation/" target="_blank" class="footer-donate">Adományozás →</a>
     </div>
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.rolunk-panel').forEach(function(p) { p.style.display = 'none'; });
+      document.querySelectorAll('.rolunk-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.getElementById('tab-' + tab).style.display = 'block';
+      btn.classList.add('active');
+      if (tab !== 'zene') {
+        var audio = document.getElementById('audioPlayer');
+        if (audio && !audio.paused) {
+          audio.pause();
+          document.getElementById('playIcon').textContent = '▶';
+          document.getElementById('playBtn').classList.remove('playing');
+          document.getElementById('vinyl').classList.remove('spinning');
+        }
+      }
+    }
+
+    function togglePlay() {
+      var audio = document.getElementById('audioPlayer');
+      var btn = document.getElementById('playBtn');
+      var icon = document.getElementById('playIcon');
+      var vinyl = document.getElementById('vinyl');
+      if (audio.paused) {
+        audio.play();
+        icon.textContent = '⏸';
+        btn.classList.add('playing');
+        vinyl.classList.add('spinning');
+      } else {
+        audio.pause();
+        icon.textContent = '▶';
+        btn.classList.remove('playing');
+        vinyl.classList.remove('spinning');
+      }
+    }
+
+    function formatTime(s) {
+      var m = Math.floor(s / 60);
+      var sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    function seekAudio(e) {
+      var audio = document.getElementById('audioPlayer');
+      var bar = e.currentTarget;
+      var ratio = e.offsetX / bar.offsetWidth;
+      audio.currentTime = ratio * audio.duration;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var audio = document.getElementById('audioPlayer');
+      if (!audio) return;
+      audio.addEventListener('timeupdate', function() {
+        if (!audio.duration) return;
+        var pct = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('musicBar').style.width = pct + '%';
+        document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+      });
+      audio.addEventListener('loadedmetadata', function() {
+        document.getElementById('totalTime').textContent = formatTime(audio.duration);
+      });
+      audio.addEventListener('ended', function() {
+        document.getElementById('playIcon').textContent = '▶';
+        document.getElementById('playBtn').classList.remove('playing');
+        document.getElementById('vinyl').classList.remove('spinning');
+        document.getElementById('musicBar').style.width = '0%';
+        document.getElementById('currentTime').textContent = '0:00';
+      });
+    });
+  </script>
 </body>
 </html>
